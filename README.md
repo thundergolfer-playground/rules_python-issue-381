@@ -25,5 +25,28 @@ Traceback (most recent call last):
 AttributeError: module 'ciso8601' has no attribute 'parse_datetime'
 ```
 
+### The Problem
 
+A 'hack fix' demonstrates the problem. rules_python's `pip_install` logic has added an `__init__.py` can be deleted to 'fix' the code.
 
+```
+rm  bazel-bin/reproduce_bug/main.runfiles/pypi/pypi__ciso8601/ciso8601/__init__.py
+```
+
+**Output:**
+
+```
+bazel run //reproduce_bug:main
+Starting local Bazel server and connecting to it...
+INFO: Analyzed target //reproduce_bug:main (19 packages loaded, 96 targets configured).
+INFO: Found 1 target...
+Target //reproduce_bug:main up-to-date:
+  bazel-bin/reproduce_bug/main
+INFO: Elapsed time: 7.498s, Critical Path: 0.04s
+INFO: 1 process: 1 internal.
+INFO: Build completed successfully, 1 total action
+INFO: Build completed successfully, 1 total action
+2014-12-05 12:30:45.123456-05:30
+```
+
+Fixed! (with an awful hack).
